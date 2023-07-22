@@ -9,9 +9,11 @@ pipeline{
 				git branch: 'main', credentialsId: 'git_cred', url: 'https://github.com/riteshalu/tomcat-demo.git'
 			}
 		}
-          	stage('Test'){
+          stage('sonar-server'){
            		 steps{
-              			echo "Test"
+              			withSonarQubeEnv('sonar-server') {
+                		sh 'mvn sonar:sonar'
+              }
             }
           }
 		stage('Build'){
