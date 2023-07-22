@@ -6,7 +6,7 @@ pipeline{
 	stages{
 		stage('SCM Checkout'){
 			steps{
-				echo "SCM Checkout"
+				git branch: 'main', credentialsId: 'git_cred', url: 'https://github.com/riteshalu/tomcat-demo.git'
 			}
 		}
           	stage('Test'){
