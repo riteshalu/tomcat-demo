@@ -11,19 +11,23 @@ pipeline{
 		}
           stage('sonar-server'){
            		 steps{
-              			withSonarQubeEnv('sonar-server') {
-                		sh 'mvn sonar:sonar'
+              			echo "Sonar Test"
               }
             }
-          }
-		stage('Build'){
+		stage('mvn-package'){
 			steps{
-				echo "Build"
+				sh 'mvn clean compile package'
 			}
 		}
-		stage('Deploy'){
+		stage('Tomcat-deployment'){
 			steps{
-				echo "Deploy to Tomcat Server"
+				sshagent(['tomcat-cred1']) {
+					sh """
+    				scp -o StrictHostKeyChecking=no target/tomcat-demo.war ec2-user@43.205.139.96:/opt/tomcat/webapps/
+					ssh ec2-user@43.205.139.96 /opt/tomcat/bin/shutdown.sh
+					ssh ec2-user@43.205.139.96 /opt/tomcat/bin/startup.sh
+					"""
+  				}
 			}
 		}
 	}
