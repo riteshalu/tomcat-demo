@@ -24,8 +24,6 @@ pipeline{
 				sshagent(['tomcat-cred1']) {
 					sh """
     				scp -o StrictHostKeyChecking=no target/tomcat-demo.war ec2-user@43.205.139.96:/opt/tomcat/webapps/
-					ssh ec2-user@43.205.139.96 /opt/tomcat/bin/shutdown.sh
-					ssh ec2-user@43.205.139.96 /opt/tomcat/bin/startup.sh
 					"""
   				}
 			}
