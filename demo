@@ -1,0 +1,27 @@
+pipeline {
+   agent any
+   tools {
+     maven 'mvn_home'
+     }
+   stages {
+     stage('SCM Checkout') {
+       steps {
+         git branch: 'main', changelog: false, credentialsId: 'GIT-Cred', poll: false, url: 'https://github.com/riteshalu/tomcat-demo.git'
+      }
+     }
+     stage('Build') {
+       steps {
+         sh 'mvn compile'
+      }
+     }
+     stage('test') {
+       steps {
+         sh 'mvn test'
+      }
+     }
+     stage('deploy') {
+       steps {
+         sh 'mvn package'
+      }
+     }
+} }
