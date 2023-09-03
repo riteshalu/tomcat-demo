@@ -14,14 +14,14 @@
          sh 'mvn package'
       }
      }
-     stage('test') {
+     stage('SonarQube Test') {
        steps {
          withSonarQubeEnv('sonar-server') {
                 sh 'mvn sonar:sonar'
               }
       }
      }
-     stage('deploy') {
+     stage('Tomcat Dev Deploy') {
        steps {
          sshagent(['Tom-Cred']) {
             sh 'scp -o StrictHostKeyChecking=no target/tomcat-demo.war ec2-user@52.66.213.186:/opt/tomcat/webapps/'
