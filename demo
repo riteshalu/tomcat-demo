@@ -16,7 +16,9 @@ pipeline {
      }
      stage('test') {
        steps {
-         sh 'mvn test'
+         withSonarQubeEnv('sonar-server') {
+                sh 'mvn sonar:sonar'
+              }
       }
      }
      stage('deploy') {
