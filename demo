@@ -1,4 +1,4 @@
-pipeline {
+ pipeline {
    agent any
    tools {
      maven 'mvn_home'
@@ -11,7 +11,7 @@ pipeline {
      }
      stage('Build') {
        steps {
-         sh 'mvn compile'
+         sh 'mvn package'
       }
      }
      stage('test') {
@@ -23,7 +23,9 @@ pipeline {
      }
      stage('deploy') {
        steps {
-         sh 'mvn package'
+         sshagent(['Tom-Cred']) {
+            sh 'scp -o StrictHostKeyChecking=no target/tomcat-demo.war ec2-user@52.66.213.186:/opt/tomcat/webapps/
+		}
       }
      }
 } }
